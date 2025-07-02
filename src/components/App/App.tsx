@@ -30,7 +30,7 @@ export default function App() {
       }
 
       setMovies(results);
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setLoading(false);
@@ -40,7 +40,7 @@ export default function App() {
   return (
     <>
       <Toaster position="top-right" />
-      <SearchBar onSubmit={handleSearch} />
+      <SearchBar onSearch={handleSearch} />
 
       {loading && <Loader />}
       {error && <ErrorMessage />}
