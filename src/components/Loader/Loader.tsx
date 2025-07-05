@@ -1,11 +1,5 @@
-import { BeatLoader } from "react-spinners";
+import css from "./Loader.module.css";
 
 export default function Loader() {
-  return (
-    <div
-      style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}
-    >
-      <BeatLoader size={60} color="#36d7b7" />
-    </div>
-  );
+  return <p className={css.text}>Loading movies, please wait...</p>;
 }

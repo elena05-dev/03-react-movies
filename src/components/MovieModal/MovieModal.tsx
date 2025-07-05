@@ -9,9 +9,22 @@ interface MovieModalProps {
 }
 
 export default function MovieModal({ movie, onClose }: MovieModalProps) {
-  const imagePath = movie.backdrop_path
-    ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+  const { backdrop_path, title, overview, release_date, vote_average } = movie;
+
+  const imagePath = backdrop_path
+    ? `https://image.tmdb.org/t/p/original${backdrop_path}`
     : null;
+
+  const formattedDate = release_date
+    ? new Date(release_date).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "Unknown";
+
+  const ratingText =
+    typeof vote_average === "number" ? `${vote_average}/10` : "No rating";
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -50,19 +63,23 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
         </button>
 
         {imagePath ? (
-          <img src={imagePath} alt={movie.title} className={css.image} />
+          <img
+            src={imagePath}
+            alt={title || "Movie image"}
+            className={css.image}
+          />
         ) : (
-          <p className={css.noImage}>No image available</p>
+          <div className={css.fallback}>No image available</div>
         )}
 
         <div className={css.content}>
-          <h2>{movie.title}</h2>
-          <p>{movie.overview || "No overview available."}</p>
+          <h2>{title || "No title available"}</h2>
+          <p>{overview?.trim() || "No overview available."}</p>
           <p>
-            <strong>Release Date:</strong> {movie.release_date || "Unknown"}
+            <strong>Release Date:</strong> {formattedDate}
           </p>
           <p>
-            <strong>Rating:</strong> {movie.vote_average ?? "N/A"}/10
+            <strong>Rating:</strong> {ratingText}
           </p>
         </div>
       </div>
